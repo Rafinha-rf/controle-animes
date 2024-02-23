@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('animes', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 128);
+            $table->string('imagem_url', 400);
             $table->timestamps();
         });
     }

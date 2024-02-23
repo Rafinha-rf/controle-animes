@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Anime extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome'];
+    protected $fillable = ['nome', 'imagem_url'];
     protected $with = ['seasons'];
 
     public function seasons()
