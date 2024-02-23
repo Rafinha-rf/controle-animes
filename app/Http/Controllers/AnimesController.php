@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AnimesFormRequest;
 use App\Models\Anime;
-use App\Models\Episode;
-use App\Models\Season;
-use Illuminate\Http\Request;
+use App\Services\AnimeService;
 
 class AnimesController extends Controller
 {
+    protected $animeService;
+
+    public function __construct(AnimeService $animeService)
+    {
+        $this->animeService = $animeService;
+    }
+
+
     public function index()
     {
         $animes = Anime::all();
@@ -27,29 +33,9 @@ class AnimesController extends Controller
     public function store(AnimesFormRequest $request)
     {
         
-        $anime = Anime::create($request->all());
-        $seasons = [];
-        for ($i=1; $i <= $request->seasonsQty; $i++){
-            $seasons[] = [
-                'animes_id' => $anime->id,
-                'number' => $i
-            ];
-        }
-        Season::insert($seasons);
-
-        $episodes = [];
-        foreach($anime->seasons as $season){
-
-            for ($j=1; $j <= $request->episodePerSeasons; $j++){
-                $episodes[] = [
-                    'season_id' => $season->id,
-                    'number' => $j
-                ];
-
-            }
-        }
-        Episode::insert($episodes);
-        
+        $animeData = $request->all();
+        $anime = $this->animeService->storeAnimeWithSeasonsAndEpisodes($animeData);
+    
         return to_route('animes.index')->with('mensagem.sucesso', "Anime '{$anime->nome}' Adicionado com sucesso");
     }
 
