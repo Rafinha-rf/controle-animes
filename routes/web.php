@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnimesController;
+use App\Http\Controllers\SeasonsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +19,7 @@ Route::get('/', function () {
     return redirect('/animes');
 });
 
-route::resource('animes', AnimesController::class)
+Route::resource('animes', AnimesController::class)
     ->except(['show']);
+
+Route::get('/animes/{anime}/seasons', [SeasonsController::class, 'index'])->name('seasons.index');
