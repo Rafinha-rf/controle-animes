@@ -24,6 +24,10 @@ class AnimeService
     public function storeAnimeWithSeasonsAndEpisodes($data)
     {
         $imagemUrl = $this->getKitsuAnimeImagem($data['nome']);
+
+        if ($imagemUrl === null){
+            return null;
+        } 
     
         $anime = Anime::create([
             'nome' => $data['nome'],
@@ -62,32 +66,34 @@ class AnimeService
         try {
             $response = $this->client->get('anime', [
                 'query' => [
-                    'filter[text]' =>$animeName
+                    'filter[text]' =>$animeName,
+                    'filter[slug]' => $animeName
                 ]
             ]);
 
-            $serachResults = json_decode($response->getBody(), true);
+            $searchResults = json_decode($response->getBody(), true);
 
-            if (!empty($serachResults['data'])){
-                $animeId = $serachResults['data'][0]['id'];
-
-                $response = $this->client->get("anime/{$animeId}");
-
-                $animeData = json_decode($response->getBody(), true);
-
-                if (!empty($animeData['data']['attributes']['posterImage']['original'])) {
-                    $imageUrl = $animeData['data']['attributes']['posterImage']['original'];
-                    return $imageUrl;
-                } else {
-                    echo "URL da imagem não encontrada para o anime '$animeName'";
+            if (!empty($searchResults['data'])){
+                // Procura pelo anime com o nome original correspondente
+                foreach ($searchResults['data'] as $animeItem) {
+                    if ($animeItem['attributes']['titles']['en_jp'] == $animeName) {
+                        $animeId = $animeItem['id'];
+                        $response = $this->client->get("anime/{$animeId}");
+                        $animeData = json_decode($response->getBody(), true);
+                        if (!empty($animeData['data']['attributes']['posterImage']['original'])) {
+                            return $animeData['data']['attributes']['posterImage']['original'];
+                        } else {
+                            return null;
+                        }
+                    }
                 }
-        
+                return null;
             } else {
-                echo "Nenhum anime encontrado com o nome '$animeName'";
-            }
+                return null;
+            } 
     
         } catch (Exception $e) {
-            echo "Erro ao fazer solicitação à API Kitsu: " . $e->getMessage() . "\n";
+            return null;
         }
 
     }
