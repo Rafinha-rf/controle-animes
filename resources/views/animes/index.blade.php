@@ -7,10 +7,10 @@
     </div>
     @endisset
 
-    <ul class="list-group w-25">
+    <ul class="list-group">
         @foreach ($animes as $anime)
         <li class="list-group-item d-flex align-items-center">
-            <img src="{{$anime->imagem_url}}" alt="" class="rounded me-3" style="width: 100px; height: 110px;">
+            <img src="{{$anime->imagem_url}}" alt="" class="rounded img-fluid me-3" style="width: 100px; height: auto;">
             <div>
                 <a href="{{route('seasons.index', $anime->id)}}" class="text-decoration-none">{{ $anime->nome }}</a>
 

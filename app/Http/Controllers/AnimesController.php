@@ -35,6 +35,10 @@ class AnimesController extends Controller
         
         $animeData = $request->all();
         $anime = $this->animeService->storeAnimeWithSeasonsAndEpisodes($animeData);
+
+        if ($anime === null) {
+            return to_route('animes.create')->with('mensagemErro', 'Anime não encontrado.');
+        }
     
         return to_route('animes.index')->with('mensagem.sucesso', "Anime '{$anime->nome}' Adicionado com sucesso");
     }

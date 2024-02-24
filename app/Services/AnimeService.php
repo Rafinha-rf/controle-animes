@@ -63,10 +63,11 @@ class AnimeService
 
     public function getKitsuAnimeImagem($animeName)
     {
+
         try {
             $response = $this->client->get('anime', [
                 'query' => [
-                    'filter[text]' =>$animeName,
+                    'filter[text]' => $animeName,
                     'filter[slug]' => $animeName
                 ]
             ]);

@@ -20,6 +20,11 @@
                 </ul>
             </div>
         @endif
+        @if(session('mensagemErro'))
+            <div class="alert alert-danger">
+                {{ session('mensagemErro') }}
+            </div>
+        @endif
         {{ $slot }}
     </main>
 </body>
