@@ -10,7 +10,11 @@
                     id="nome" 
                     name="nome" 
                     class="form-control" 
+                    autocomplete="off"
                     value="{{old('nome')}}">
+
+                <!-- Container para exibir sugestões -->
+                <ul class="list-group mt-2" id="suggestions"></ul>
             </div>
 
             <div class="col-2">
@@ -30,11 +34,12 @@
                     class="form-control" 
                     value="{{old('episodePerSeasons')}}">
             </div>
-
         </div>
 
         <button type="submit" class="btn btn-primary">Adicionar</button>
-
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/anime_suggestions.js') }}"></script>
+    
 </x-layout>

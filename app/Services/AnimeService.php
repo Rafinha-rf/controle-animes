@@ -23,15 +23,14 @@ class AnimeService
 
     public function storeAnimeWithSeasonsAndEpisodes($data)
     {
-        $imagemUrl = $this->getKitsuAnimeImagem($data['nome']);
-
-        if ($imagemUrl === null){
+        $dataAnime = $this->getKitsuAnimeImagem($data['nome']);
+        if ($dataAnime === null){
             return null;
         } 
     
         $anime = Anime::create([
-            'nome' => $data['nome'],
-            'imagem_url' => $imagemUrl
+            'nome' => $dataAnime[0],
+            'imagem_url' => $dataAnime[1]
         ]);
 
         //dd($anime);
@@ -68,24 +67,28 @@ class AnimeService
             $response = $this->client->get('anime', [
                 'query' => [
                     'filter[text]' => $animeName,
-                    'filter[slug]' => $animeName
                 ]
             ]);
 
             $searchResults = json_decode($response->getBody(), true);
 
+            usort($searchResults['data'], function($a, $b) {
+                return strtotime($a['attributes']['createdAt']) - strtotime($b['attributes']['createdAt']);
+            });
+
             if (!empty($searchResults['data'])){
                 // Procura pelo anime com o nome original correspondente
                 foreach ($searchResults['data'] as $animeItem) {
-                    if ($animeItem['attributes']['titles']['en_jp'] == $animeName) {
-                        $animeId = $animeItem['id'];
+                    if (stripos($animeItem['attributes']['titles']['en_jp'], $animeName) !== false || stripos($animeItem['attributes']['titles']['en_us'], $animeName) !== false) {
+                        $animeId = $searchResults['data'][0]['id'];
                         $response = $this->client->get("anime/{$animeId}");
                         $animeData = json_decode($response->getBody(), true);
                         if (!empty($animeData['data']['attributes']['posterImage']['original'])) {
-                            return $animeData['data']['attributes']['posterImage']['original'];
+                            return array($animeData['data']['attributes']['titles']['en_jp'], $animeData['data']['attributes']['posterImage']['original']);
                         } else {
                             return null;
                         }
+                        break;
                     }
                 }
                 return null;
@@ -99,5 +102,4 @@ class AnimeService
 
     }
 
-    
 }
