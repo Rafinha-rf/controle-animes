@@ -1,0 +1,12 @@
+{
+  "builds": [
+    {
+      "src": "webpack.mix.js",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "public" }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "public/$1" }
+  ]
+}
