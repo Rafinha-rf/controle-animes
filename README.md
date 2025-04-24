@@ -10,19 +10,57 @@ Sistema de controle e gerenciamento de animes desenvolvido com Laravel 9. Este p
 
 ## 🚀 Funcionalidades
 
-- Cadastro e gerenciamento de animes
-- Controle de episódios assistidos
-- Sistema de avaliação
-- Interface intuitiva e responsiva
-- Autenticação de usuários
+### Sistema de Autenticação
+- Registro de usuários
+- Login/Logout
+- Perfil de usuário personalizado
+- Proteção de rotas
+
+### Gerenciamento de Animes
+- Cadastro de animes com integração à API Kitsu
+- Busca automática de informações e imagens dos animes
+- Lista personalizada de animes por usuário
+- Edição e remoção de animes
+- Visualização em cards com imagens dos animes
+
+### Controle de Temporadas e Episódios
+- Organização por temporadas
+- Listagem de episódios por temporada
+- Interface intuitiva com sistema de acordeão
+- Visualização do número total de episódios por temporada
+
+### Sistema de Progresso
+- Marcação de episódios como:
+  - Assistido
+  - Em andamento
+  - Não assistido
+- Marcação rápida de temporada inteira
+- Feedback visual do status de cada episódio
+- Progresso individual por usuário
+
+### Interface e UX
+- Design responsivo com Bootstrap
+- Tema claro/escuro
+- Notificações toast para feedback de ações
+- Ícones intuitivos
+- Interface moderna e amigável
+
+### Recursos Técnicos
+- Integração com API externa (Kitsu)
+- Sistema de cache para otimização
+- Validações de formulários
+- Proteção CSRF
+- Migrations para versionamento do banco de dados
 
 ## 🛠️ Tecnologias Utilizadas
 
 - PHP 8.0.2+
 - Laravel 9
 - MySQL
-- Bootstrap
+- Bootstrap 5
 - JavaScript
+- API Kitsu
+- Biblioteca de ícones Bootstrap
 
 ## 📦 Requisitos
 
@@ -69,6 +107,20 @@ php artisan migrate
 ```bash
 php artisan serve
 ```
+
+## 🔄 Atualizações Recentes
+
+### v1.1.0
+- Implementação do sistema de progresso de episódios
+- Adição do tema claro/escuro
+- Melhorias na interface do usuário
+- Correção de bugs na autenticação
+
+### v1.0.0
+- Lançamento inicial
+- Sistema básico de gerenciamento de animes
+- Autenticação de usuários
+- Integração com API Kitsu
 
 ## 🤝 Contribuindo
 

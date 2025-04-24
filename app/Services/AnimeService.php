@@ -7,6 +7,7 @@ use App\Models\Season;
 use App\Models\Episode;
 use Exception;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -30,7 +31,8 @@ class AnimeService
     
         $anime = Anime::create([
             'nome' => $dataAnime[0],
-            'imagem_url' => $dataAnime[1]
+            'imagem_url' => $dataAnime[1],
+            'user_id' => Auth::id()
         ]);
 
         //dd($anime);
